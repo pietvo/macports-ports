@@ -2,10 +2,12 @@
 
 PortSystem          1.0
 
-name                diff-pdf
-version             0.3
+PortGroup           github 1.0
+github.setup        vslavik diff-pdf 0.3 v
+github.tarball_from releases
+
 categories          graphics
-maintainers         {@pietvo vanoostrum.org:piet}
+maintainers         {@pietvo vanoostrum.org:piet openmaintainer}
 platforms           darwin
 supported_archs     i386 x86_64
 license             GPL-2
@@ -21,29 +23,17 @@ long_description \
        
 homepage            http://vslavik.github.io/diff-pdf
 
-PortGroup           github 1.0
-github.setup        vslavik diff-pdf 0.3 v
-github.tarball_from releases
-
 PortGroup           wxWidgets 1.0
 wxWidgets.use       wxWidgets-3.0
 
-checksums           rmd160  938e1f32218a083c2db37e8c220bbde48ef091e7 \
-                    sha256  4e91f1094216b98baa22d461b9662b3b6666e49ceb01671e5db6d1a3d384c538 \
-                    size    33688
+checksums           rmd160  f2d8071f2b5378d29ffd0bae1124011cec2efe92 \
+                    sha256  8f1beb45d48fecfb09c802e95154ad9b8d4b73e90796eaf7ab835f107b495da0 \
+                    size    132862
 
-depends_lib         port:poppler \
-                    port:cairo \
-                    port:wxWidgets-3.0
-    
-use_autoconf        yes
-autoconf.cmd        ./bootstrap
+depends_lib         path:lib/libcairo.dylib:cairo \
+                    port:poppler \
+                    port:${wxWidgets.port}
 
-# depends_build must be after use_autoconf due to a quirk
-# in trace mode (port -t)
-
-depends_build       port:autoconf \
-                    port:automake \
-                    port:pkgconfig
+depends_build       port:pkgconfig
 
 configure.args      --with-wxdir=${wxWidgets.wxdir}
