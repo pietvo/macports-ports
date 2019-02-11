@@ -7,7 +7,7 @@ github.setup        vslavik diff-pdf 0.3 v
 github.tarball_from releases
 
 categories          graphics
-maintainers         {@pietvo vanoostrum.org:piet openmaintainer}
+maintainers         {@pietvo vanoostrum.org:piet} openmaintainer
 platforms           darwin
 supported_archs     i386 x86_64
 license             GPL-2
