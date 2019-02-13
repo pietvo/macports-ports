@@ -20,7 +20,7 @@ long_description \
     PDF file with visually highlighted differences. \
     With the `--view` argument it opens a window that lets you view the \
     files' pages and zoom in on details.
-       
+
 homepage            http://vslavik.github.io/diff-pdf
 
 PortGroup           wxWidgets 1.0
