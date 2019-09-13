@@ -4,15 +4,16 @@ PortSystem          1.0
 PortGroup           compiler_blacklist_versions 1.0
 PortGroup           cxx11 1.1
 PortGroup           cmake 1.1
+PortGroup           active_variants 1.1
 
 cmake.generator     Ninja
 
 name                inkscape-gtk3-devel
 conflicts           inkscape inkscape-devel
-set git_commit      42f2371f
-set git_date        20190429
-revision            2
-version             1.0alpha-${git_date}
+set git_commit      fe3e3069
+set git_date        20190917
+revision            0
+version             1.0beta1-${git_date}
 license             GPL-2 LGPL-2.1
 maintainers         {devans @dbevans}
 categories          graphics gnome
@@ -77,7 +78,7 @@ post-patch {
     reinplace "s|\"python-interpreter\", \"python\"|\"python-interpreter\", \"python${python_major}.${python_minor}\"|g" ${worksrcpath}/src/extension/implementation/script.cpp
     reinplace "s|^#include \"Object.h\"|#include \"${prefix}/include/poppler/Object.h\"|" ${worksrcpath}/src/extension/internal/pdfinput/pdf-parser.h
     reinplace "s|^#include \"Object.h\"|#include \"${prefix}/include/poppler/Object.h\"|" ${worksrcpath}/src/extension/internal/pdfinput/pdf-parser.cpp
-    reinplace "s|lib/inkscape|lib|" ${worksrcpath}/src/CMakeLists.txt
+    reinplace "s|\${CMAKE_INSTALL_LIBDIR}/inkscape|\${CMAKE_INSTALL_LIBDIR}|" ${worksrcpath}/src/CMakeLists.txt
 }
 
 # py-numpy is currently not universal (#48263).
@@ -103,8 +104,11 @@ configure.args-append \
 variant x11 conflicts quartz {}
 variant quartz conflicts x11 {}
 
-if {![variant_isset quartz]} {
-    default_variants +x11
+if {[variant_isset quartz]} {
+    require_active_variants gtk3 quartz
+    depends_lib-append      port:gtk-osx-application-gtk3
+} else {
+    require_active_variants gtk3 x11
 }
 
 post-activate {
